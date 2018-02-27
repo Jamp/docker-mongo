@@ -9,6 +9,7 @@ COPY ./create-user.sh /create-user.sh
 RUN chmod +x /start.sh
 RUN chmod +x /create-user.sh
 
-CMD ["/start.sh"]
-
 EXPOSE 27017
+
+ENTRYPOINT mongo
+CMD ["/start.sh"]
