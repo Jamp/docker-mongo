@@ -1,6 +1,7 @@
 #!/bin/bash
-set -m
+set -e
 
+ADMIN_PASSWORD=123
 DEVELOPMENT_DB=developer
 DEVELOPMENT_USER=developer
 DEVELOPMENT_PASSWORD=123
@@ -15,7 +16,7 @@ while [[ STARTUP -ne 0 ]]; do
     STARTUP=$?
 done
 
-mongo admin --eval "db.createUser({ user: 'admin', pwd: '123', roles: [{ role: 'userAdminAnyDatabase', db: 'admin' }]})"
+mongo admin --eval "db.createUser({ user: 'admin', pwd: '$ADMIN_PASSWORD', roles: [{ role: 'userAdminAnyDatabase', db: 'admin' }]})"
 
 echo "Admin user created!"
 sleep 2
