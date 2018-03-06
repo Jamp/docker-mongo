@@ -11,5 +11,4 @@ RUN chmod +x /create-user.sh
 
 EXPOSE 27017
 
-ENTRYPOINT mongo
 CMD ["/start.sh"]
