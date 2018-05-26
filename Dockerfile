@@ -1,7 +1,7 @@
 FROM mongo:3.6.2
 
-MAINTAINER Jaro Marval <jaro at tooldata dot com dot co>
-LABEL maintaner="Jaro Marval <jaro at tooldata dot com dot co>"
+MAINTAINER Jaro Marval <jaro@tooldata.io>
+LABEL maintaner="Jaro Marval <jaro@tooldata.io>"
 
 COPY ./start.sh /start.sh
 COPY ./create-user.sh /create-user.sh
