@@ -1,10 +1,22 @@
 #!/bin/bash
 set -e
 
-ADMIN_PASSWORD=123
-DEVELOPMENT_DB=developer
-DEVELOPMENT_USER=developer
-DEVELOPMENT_PASSWORD=123
+### Check variables external
+if [ -z ${MONGO_ADMIN_PASSWORD+x} ]; then
+  MONGO_ADMIN_PASSWORD=123
+fi
+
+if [ -z ${MONGO_DB+x} ]; then
+  MONGO_DB=developer
+fi
+
+if [ -z ${MONGO_USER+x} ]; then
+  MONGO_USER=developer
+fi
+
+if [ -z ${MONGO_PASSWORD+x} ]; then
+  MONGO_PASSWORD=123
+fi
 
 ### Wait for mongo deamon is ready and set user admin
 STARTUP=1
@@ -16,17 +28,17 @@ while [[ STARTUP -ne 0 ]]; do
     STARTUP=$?
 done
 
-mongo admin --eval "db.createUser({ user: 'admin', pwd: '$ADMIN_PASSWORD', roles: [{ role: 'userAdminAnyDatabase', db: 'admin' }]})"
+mongo admin --eval "db.createUser({ user: 'admin', pwd: '$MONGO_ADMIN_PASSWORD', roles: [{ role: 'userAdminAnyDatabase', db: 'admin' }]})"
 
 echo "Admin user created!"
 sleep 2
 
 mongo admin -u admin -p 123 << EOF
-use $DEVELOPMENT_DB
-db.createUser({ user: '$DEVELOPMENT_USER', pwd: '$DEVELOPMENT_PASSWORD', roles: [{ role: 'dbOwner', db: '$DEVELOPMENT_DB' }]})
+use $MONGO_DB
+db.createUser({ user: '$MONGO_USER', pwd: '$MONGO_PASSWORD', roles: [{ role: 'dbOwner', db: '$MONGO_DB' }]})
 EOF
 
-echo "$DEVELOPMENT_USER user created!"
+echo "$MONGO_USER user created!"
 sleep 2
 
 touch /data/db/.auth_set

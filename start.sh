@@ -6,8 +6,11 @@ echo 'Initializate Mongo Server'
 mongod --bind_ip_all --auth &
 
 ### Check user admin is set
-if [ ! -d /data/db/.auth_set ]; then
-    /create-user.sh
+if [ ! -f /data/db/.auth_set ]; then
+  echo 'Prepare authentication set'
+  /create-user.sh
+else
+  echo 'Skip authentication'
 fi
 
 fg
