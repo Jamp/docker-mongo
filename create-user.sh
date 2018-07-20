@@ -28,14 +28,14 @@ while [[ STARTUP -ne 0 ]]; do
     STARTUP=$?
 done
 
-mongo admin --eval "db.createUser({ user: 'admin', pwd: '$MONGO_ADMIN_PASSWORD', roles: [{ role: 'userAdminAnyDatabase', db: 'admin' }]})"
+mongo admin --eval "db.createUser({ user: 'admin', pwd: '$MONGO_ADMIN_PASSWORD', roles: ['root'] })"
 
 echo "Admin user created!"
 sleep 2
 
-mongo admin -u admin -p 123 << EOF
+mongo admin -u admin -p $MONGO_ADMIN_PASSWORD << EOF
 use $MONGO_DB
-db.createUser({ user: '$MONGO_USER', pwd: '$MONGO_PASSWORD', roles: [{ role: 'dbOwner', db: '$MONGO_DB' }]})
+db.createUser({ user: '$MONGO_USER', pwd: '$MONGO_PASSWORD', roles: [{ role: 'dbOwner', db: '$MONGO_DB' }, { role: 'read', db: 'local' }]})
 EOF
 
 echo "$MONGO_USER user created!"
